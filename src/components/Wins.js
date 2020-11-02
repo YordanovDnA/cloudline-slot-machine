@@ -6,7 +6,7 @@ import { useSelector } from "react-redux";
 
 function Wins() {
   const tally = useSelector(state => state.tally);
-  return "wins";
+  return <div>Wins: {tally.wins}</div>;
 }
 
 export default Wins;

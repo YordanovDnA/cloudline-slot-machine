@@ -6,7 +6,7 @@ import { useSelector } from "react-redux";
 
 function Tries() {
   const tally = useSelector(state => state.tally);
-  return "tries";
+return <div>Tries: {tally.tries}</div>;
 }
 
 export default Tries;
