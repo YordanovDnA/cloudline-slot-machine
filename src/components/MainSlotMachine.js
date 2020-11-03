@@ -6,78 +6,114 @@ import Tries from "./Tries";
 import Wins from "./Wins";
 
 const Parent = styled.div`
-  height: 100%;
+  
   width: 100%;
-  background: #dcdcf3;
-  display: flex;
-  align-items: center;
-  justify-content: space-around;
+  max-width: 1300px;
+  margin-left: auto;
+  margin-right: auto;
+  display: grid;
+  grid-template-columns: 50% 50%;
+  @media (max-width: 992px) {
+  }
+  
 `;
 
 const SubDiv = styled.div`
-  height: 80%;
-  width: 40%;
-  margin: 20px;
-  padding: 30px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-direction: column;
-  background: #e09e9e;
+  margin: 1em;
+  background: #3C038C;
+  max-width: 600px;
+  border-radius: 10px;
+  box-shadow: 0 0 11px #0DF205;
+
+  @media (max-width: 992px) {
+    grid-column-start: 1;
+    grid-column-end: 3;
+    max-width: 95%;
+  }
+
 `;
 
 const Header = styled.div`
   height: 60px;
   width: 100%;
-  background: #cc6d6d;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  padding-top: 0.2em;
+  margin-bottom: 0.2em;
+  text-align: center;
   font-size: 26px;
-  color: white;
+  color: #FEFFFF;
+  border-bottom: 1px solid black;
 `;
 
 const Jackpot = styled.div`
-  display: flex;
-  justify-content: center;
   min-width: 100%;
   min-height: 150px;
-  border: 1px solid;
-  font-size: 26px;
+  border-bottom: 1px solid;
+  text-align: center;
+  text-shadow: 5px 3px  2px black;
+  font-size: 2.8em;
+  color: #0DF205;
   padding-top: 20px;
+  @media (max-width: 768px) {
+    font-size: 1.7em;
+    min-height: 100px;
+  }
 `;
 
 const Slots = styled.div`
-  display: flex;
-  justify-content: space-between;
-  padding: 30px;
+  width: 100%;
+  margin-top: 0.8em;
+  display: grid;
+  grid-template-columns: auto auto auto;
+  padding: 1em;
+  > * {
+    border-right: 2px solid;
+  }
+  & :first-child {
+    border-radius: 30px 0 0 30px;
+  }
+  & :last-child {
+    border-radius: 0 30px 30px 0;
+  }
 `;
 
 const Slot = styled.div`
-  height: 250px;
-  width: 180px;
-  margin: 10px;
-  border: 2px solid black;
+  height: 13em;
+  width: 100%;
 `;
 
-const Spin = styled.button`
-  width: 300px;
-  height: 100px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 25px;
+const Spin = styled.a`
+  display: block;
+  width: 60%;
+  padding: 15px 50px;
+  margin-top: 2em;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 30px;
+  font-size: 2em;
   font-weight: bold;
-  background: blue;
-  color: white;
+  text-align: center;
+  text-shadow: 1px 1px 2px #FEFFFF;
+  color: #0D0D0D;
+  background-color: #3DBFF2;
+  border: 1px solid #0DF205;
+  border-radius: 10px;
+  box-shadow: 2px 2px 5px #0DF205;
   user-select: none;
   :hover {
     cursor: pointer;
+  }
+  :active {
+    box-shadow: 1px 1px 5px #0DF205;
+  }
+  @media (max-width: 768px) {
+    font-size: 1.5em;
+    margin-top: 1em;
   }
 `;
 
 const Tally = styled.div`
   display: flex;
+  padding: 5px;
   justify-content: space-around;
   width: 100%;
   font-size: 20px;
@@ -93,11 +129,17 @@ const MainSlotMachine = () => {
 
   // A few random base colors. To worsen the odds of winning,
   // you can add more colors.
+  /*Adding or removing a color will not affect the application.
+  Give it a try. */
   const baseColors = ["#027333", "#F29F05", "#A60303"];
 
   // By default, the slot machine colors are all grey. You can change
   // this if you want.
-  const [newColors, setColors] = useState(["#524D49", "#524D49", "#524D49"]);
+  /*Adding or removin color in the defaultColors array will add / remove a slot. 
+  Try to remove the last color and refresh the page to see the difference. */
+  const defaultColors = ["#524D49", "#524D49", "#524D49"];
+  const [newColors, setColors] = useState([...defaultColors]);
+  
 
   //By default jackpot is false. When colors match it's change to true and 
   //"Wow, you hit the jackpot!" appear on the screen."
@@ -125,9 +167,9 @@ const MainSlotMachine = () => {
 
     /* Select random color indexes based on the length of the baseColors 
     array (slots rendered in our app).
-    If we want to add/ remove slot(color) to out application, we just need to 
-    add/remove color into the newColors array. This will automaticaly
-    render one more slot in out app. */
+    If we want to add/ remove slot(color) to our application, we just need to 
+    add/remove color into the baseColors array. This will automaticaly
+    render one more slot in out app. However we still need to refactor the css */
     for(let i = 0; i < newColors.length; i++){
       selectedIndexes.push(Math.round(Math.random() * (baseColors.length - 1)))
       selectedColors.push(baseColors[selectedIndexes[i]]);
@@ -159,13 +201,14 @@ const MainSlotMachine = () => {
   // on 5 wins the spin button should also become disabled.
   // On selecting 'ok', the tally wins and tries are reset.
   useEffect(() => {
-    //Check the tally wins, and reset the tally if the user click 'ok'. 
+    //Check the tally wins, and reset the tally,if tally reach 5, and if the user click 'ok'. 
     if(tally.tally.wins === 5){
       //Set timeout, so the React will have time to update the DOM before the
       //the confirm window pop up. 
       setTimeout(() => {
         const stop = window.confirm("Stop Gambling")
         if(stop) dispatch(resetTally())
+        setColors(defaultColors)
       }, 100);
     }
   },);
@@ -179,11 +222,10 @@ const MainSlotMachine = () => {
     <Parent>
       
       <SubDiv>
-      <Jackpot>{jackpot && "Wow, you hit the jackpot!"}</Jackpot>
-  <Slots>{newColors.map((color,index)=>{
-    return <Slot key={index} style={{backgroundColor: color}}></Slot>
-  })}</Slots>
-
+        <Jackpot >{jackpot ? "Wow, you hit the jackpot!" : "Good Luck!"}</Jackpot>
+        <Slots>{newColors.map((color,index)=>{
+          return <Slot key={index} style={{backgroundColor: color}}></Slot>
+        })}</Slots>
         <Spin disabled={tally.tally.wins === 5} onClick={()=>spin()}>Spin!</Spin>
       </SubDiv>
       <SubDiv>
