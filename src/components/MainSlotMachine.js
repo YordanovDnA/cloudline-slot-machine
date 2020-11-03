@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { addToWins, addToTries, resetTally } from "../actions/tallyActions";
 import Tries from "./Tries";
 import Wins from "./Wins";
+import { PropTypes } from 'prop-types';
 
 const Parent = styled.div`
   
@@ -119,7 +120,7 @@ const Tally = styled.div`
   font-size: 20px;
 `;
 
-const MainSlotMachine = () => {
+const MainSlotMachine = ({baseColors, defaultColors}) => {
   // The dispatch function for dispatching actions when we
   // call our action creators.
   const dispatch = useDispatch();
@@ -131,13 +132,15 @@ const MainSlotMachine = () => {
   // you can add more colors.
   /*Adding or removing a color will not affect the application.
   Give it a try. */
-  const baseColors = ["#027333", "#F29F05", "#A60303"];
+  // const baseColors = ["#027333", "#F29F05", "#A60303"];
+  //I coment out this line because I passed the baseColors via props to make the component reusable. 
 
   // By default, the slot machine colors are all grey. You can change
   // this if you want.
   /*Adding or removin color in the defaultColors array will add / remove a slot. 
   Try to remove the last color and refresh the page to see the difference. */
-  const defaultColors = ["#524D49", "#524D49", "#524D49"];
+  //I coment out this line because I passed the defaulColors via props to make the component reusable. 
+  // const defaultColors = ["#524D49", "#524D49", "#524D49"];
   const [newColors, setColors] = useState([...defaultColors]);
   
 
@@ -238,5 +241,10 @@ const MainSlotMachine = () => {
     </Parent>
   );
 };
+
+MainSlotMachine.propTypes = {
+  defaultColors: PropTypes.arrayOf(PropTypes.string).isRequired,
+  baseColors: PropTypes.arrayOf(PropTypes.string).isRequired,
+}
 
 export default MainSlotMachine;

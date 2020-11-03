@@ -28,7 +28,10 @@ function App() {
   return (
     <Provider store={store} className="App">
       <Main className="App">
-        <MainSlotMachine />
+        Passing the baseColors and defaultColors through props makes this component reusable. 
+        If you'd like to add/remove slot simply add /remove base color. 
+        The decaultColors are for random selection, they can be as many as you want. This does not affect the application, but makes it harder to win. 
+        <MainSlotMachine baseColors={["#027333", "#F29F05", "#A60303"]} defaultColors={["#524D49", "#524D49", "#524D49"]} />
       </Main>
     </Provider>
   );
