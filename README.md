@@ -27,7 +27,5 @@ The task was to use style-components. I never worked with this library before, a
 My plan was to build an automated reusable component, which style and complexity can be change via props.
 
 Here is a preview of the application:
-
-![Cloudline slot machine image](https://raw.githubusercontent.com/YordanovDnA/cloudline-slot-machine/main/src/images/cloudline-slot-machine.jpg)
-
-[]()
+[https://master.d2whutzgjrer86.amplifyapp.com](https://master.d2whutzgjrer86.amplifyapp.com)
+![Cloudline slot machine image](https://raw.githubusercontent.com/YordanovDnA/cloudline-slot-machine/master/src/images/cloudline-slot-machine.jpg)
